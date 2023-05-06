@@ -1,2 +1,2 @@
-# microfrontends-with-react
-🤏🏻 Microfrontends with React 
+# 🤏🏻 Microfrontends with React
+
