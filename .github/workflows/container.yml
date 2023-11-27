@@ -15,15 +15,26 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment:
+      name: mfe-prod
     steps:
-      - uses: actions/checkout@v3
-      - run: npm install
-      - run: npm run build
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 18.16.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Run build
+        run: npm run build
 
       - uses: shinyinc/action-aws-cli@v1.2
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ""
+          AWS_DEFAULT_REGION: "us-east-2"
